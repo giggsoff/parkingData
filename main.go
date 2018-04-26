@@ -212,7 +212,7 @@ func main() {
 	fmt.Println(dataArray[0].lots)
 	//fmt.Println(dataArray)
 	corpus = strings.Split(RandStringRunes(len(dataArray[0].occupings)*dataArray[0].lots), "")
-	for curIndex=7;curIndex<len(dataArray);curIndex++ {
+	for curIndex=0;curIndex<len(dataArray);curIndex++ {
 		corpus = strings.Split(RandStringRunes(len(dataArray[curIndex].occupings)*dataArray[curIndex].lots), "")
 		var ga= gago.Generational(MakeStrings)
 		ga.PopSize = 15
@@ -230,10 +230,25 @@ func main() {
 			fmt.Printf("Result %s %d -> %s (%.0f mismatches)\n", dataArray[curIndex].name, i, buffer.String(), ga.HallOfFame[0].Fitness)
 		}
 		var buffer bytes.Buffer
+		curnum:=1
+		currow:=0
 		for _, letter := range ga.HallOfFame[0].Genome.(Strings) {
-			buffer.WriteString(letter)
+			if curnum==1{
+				if currow<len(dataArray[curIndex].occupings) {
+					buffer.WriteString(dataArray[curIndex].occupings[currow].moment.Format("2006-01-02 15:04:05") + "\t")
+				}else{
+
+				}
+			}
+			buffer.WriteString(letter+"\t")
+			curnum++
+			if curnum==dataArray[curIndex].lots+1 {
+				curnum=1
+				currow++
+				buffer.WriteString("\n")
+			}
 		}
-		WriteStringToFile(dataArray[curIndex].name,buffer.String())
+		WriteStringToFile("results/"+dataArray[curIndex].name+".xls",buffer.String())
 		fmt.Printf("Result %s -> (%.0f mismatches)\n", dataArray[curIndex].name, ga.HallOfFame[0].Fitness)
 	}
 }
