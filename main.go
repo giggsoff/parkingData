@@ -248,7 +248,7 @@ func main() {
 				buffer.WriteString("\n")
 			}
 		}
-		WriteStringToFile("results/"+dataArray[curIndex].name+".xls",buffer.String())
+		WriteStringToFile("results/"+dataArray[curIndex].name+".csv",buffer.String())
 		fmt.Printf("Result %s -> (%.0f mismatches)\n", dataArray[curIndex].name, ga.HallOfFame[0].Fitness)
 	}
 }
